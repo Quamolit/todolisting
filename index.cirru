@@ -1,0 +1,16 @@
+doctype
+
+html
+  head
+    title "Todolisting"
+    meta (:charset utf-8)
+    script(:src build/vendor.js)
+    @if (@ dev)
+      @block
+        link (:rel stylesheet) (:href src/main.css)
+        script (:defer) (:src build/main.js)
+      @block
+        link (:rel stylesheet) (:href build/main.css)
+        script (:defer) (:src build/main.js)
+  body
+    canvas#canvas
