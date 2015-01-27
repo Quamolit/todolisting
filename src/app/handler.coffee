@@ -1,11 +1,16 @@
 
 Quamolit = require 'quamolit'
 
+todoActions = require '../actions/todo'
+
 {input} = Quamolit.elements
 {button} = Quamolit.elements
 
 module.exports = Quamolit.createComponent
   name: 'handler'
+
+  getInitialState: ->
+    text: ''
 
   getKeyframe: ->
     x: 0
@@ -20,15 +25,20 @@ module.exports = Quamolit.createComponent
     y: 0
 
   onButtonClick: (event) ->
-    console.log 'button click:', event
+    if @state.text.length > 0
+      todoActions.create @state.text
+    @setState text: ''
 
-  onInputClick: (event) ->
-    console.log 'input click:', event
+  onTextChange: (event) ->
+    @setState text: event.text
 
   render: -> [
     input x: -50, y: 0,
-      text: '', onClick: @onInputClick
-    button x: 60, y: 0,
-      text: 'x'
+      vx: 100, xy: 20
+      text: @state.text
+      onChange: @onTextChange
+    button x: 100, y: 0,
+      vx: 40, xy: 20
+      text: 'create'
       onClick: @onButtonClick
   ]

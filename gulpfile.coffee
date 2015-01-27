@@ -132,9 +132,9 @@ gulp.task 'start', (cb) ->
   sequence = require 'run-sequence'
   sequence 'clean', 'vendor', 'dev', cb
 
-gulp.task 'dev', ->
+gulp.task 'dev', (cb) ->
   sequence = require 'run-sequence'
-  sequence ['html', 'coffee', 'prefixer'], 'browserify'
+  sequence ['html', 'coffee', 'prefixer'], 'browserify', cb
 
 gulp.task 'build', (cb) ->
   dev = no
