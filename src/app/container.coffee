@@ -38,9 +38,9 @@ module.exports = Quamolit.createComponent
 
     items = @state.todos.map (data, index) =>
       order = index
-      line delay: (400 * order), x: 0, y: (80 * order - 80),
+      line {delay: (400 * order), x: 0, y: (80 * order - 80)},
         data: data
-        key: data.id
-        index: index
+        id: "line.#{data.id}"
+        isComposing: false
 
     header.concat items

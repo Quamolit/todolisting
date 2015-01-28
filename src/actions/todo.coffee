@@ -1,8 +1,7 @@
 
 Quamolit = require 'quamolit'
 
-exports.create = (text) ->
-  payload = text: text
+exports.create = (payload) ->
   Quamolit.dispatch 'todo/create', payload
 
 exports.delete = (payload) ->

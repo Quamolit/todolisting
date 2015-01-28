@@ -1,9 +1,11 @@
 
 Quamolit = require 'quamolit'
+shortid = require 'shortid'
 
 todoActions = require '../actions/todo'
 
-{input} = Quamolit.elements
+line = require './line'
+
 {button} = Quamolit.elements
 
 module.exports = Quamolit.createComponent
@@ -11,6 +13,7 @@ module.exports = Quamolit.createComponent
 
   getInitialState: ->
     text: ''
+    id: shortid.generate()
 
   getKeyframe: ->
     x: 0
@@ -26,18 +29,25 @@ module.exports = Quamolit.createComponent
 
   onButtonClick: (event) ->
     if @state.text.length > 0
-      todoActions.create @state.text
-    @setState text: ''
+      todoActions.create
+        id: @state.id
+        text: @state.text
+        checked: false
+    @setState text: '', id: shortid.generate()
 
-  onTextChange: (event) ->
-    @setState text: event.text
+  onTextChange: (text) ->
+    @setState {text}
 
   render: -> [
-    input x: -50, y: 0,
-      vx: 100, xy: 20
-      text: @state.text
-      onChange: @onTextChange
-    button x: 100, y: 0,
+    line {x: -50, y: 0},
+      id: "line.#{@state.id}"
+      data:
+        text: @state.text
+        id: @state.id
+        checked: false
+      isComposing: true
+      onTextChange: @onTextChange
+    button {x: 160, y: 0},
       vx: 40, xy: 20
       text: 'create'
       onClick: @onButtonClick

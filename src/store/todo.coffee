@@ -28,7 +28,6 @@ todoStore = Quamolit.createStore
     @data
 
   create: (data) ->
-    data.id = shortid.generate()
     @data.unshift data
     @change()
 

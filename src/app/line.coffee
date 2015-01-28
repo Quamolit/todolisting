@@ -10,24 +10,35 @@ todoActions = require '../actions/todo'
 module.exports = Quamolit.createComponent
   name: "line"
 
+  propTypes:
+    data: 'Object'
+    isComposing: 'Boolean'
+    onTextChange: 'Function'
+
   getKeyframe: ->
     x: 0
     y: 0
+    size: 10
 
   getEnteringKeyframe: ->
     x: -40
     y: 0
+    size: 0
 
   getLeavingKeyframe: ->
     x: -40
     y: 0
+    size: 0
 
   onCheckClick: ->
     newState = not @props.data.done
     todoActions.update id: @props.data.id, done: newState
 
   onTextChange: (event) ->
-    todoActions.update id: @props.data.id, text: event.text
+    if @props.isComposing
+      @props.onTextChange event.text
+    else
+      todoActions.update id: @props.data.id, text: event.text
 
   onDelete: (event) ->
     console.log 'delete'
@@ -35,15 +46,23 @@ module.exports = Quamolit.createComponent
     todoActions.delete @props.data.id
 
   render: -> [
-    check x: -80, y: 0,
-      checked: @props.data.done
-      onClick: @onCheckClick
+    unless @props.isComposing
+      check
+        x: -80, y: 0
+      ,
+        checked: @props.data.done
+        onClick: @onCheckClick
     input x: 60, y: 0,
       vx: 100, vy: 20
       text: @props.data.text
       onChange: @onTextChange
-    rect x: 180, y: 0,
-      vx: 10, vy: 10
-      color: 'red'
-      onClick: @onDelete
+    unless @props.isComposing
+      rect
+        x: 180, y: 0,
+        vector:
+          x: @frame.size
+          y: @frame.size
+      ,
+        color: 'red'
+        onClick: @onDelete
   ]
