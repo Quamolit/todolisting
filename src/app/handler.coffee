@@ -33,7 +33,10 @@ module.exports = Quamolit.createComponent
         id: @state.id
         text: @state.text
         checked: false
-    @setState text: '', id: shortid.generate()
+      @setState text: '', id: shortid.generate()
+
+  onArchiveClick: (event) ->
+    todoActions.archive()
 
   onTextChange: (text) ->
     @setState {text}
@@ -51,4 +54,8 @@ module.exports = Quamolit.createComponent
       vx: 40, xy: 20
       text: 'create'
       onClick: @onButtonClick
+    button {x: 250, y: 0},
+      vx: 40, vy: 20
+      text: 'archive'
+      onClick: @onArchiveClick
   ]
